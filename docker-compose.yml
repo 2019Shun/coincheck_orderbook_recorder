@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14.3
+    volumes:
+      - coincheck_db:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+    container_name: coincheck_orderbook_postgres
+    environment:
+      POSTGRES_USER: coincheck
+      POSTGRES_PASSWORD: coincheck
+      POSTGRES_DB: coincheck
+    ports:
+      - '5432:5432'
+    networks:
+      coincheck_net:
+        ipv4_address: 172.30.0.2
+
+  ubuntu:
+    image: ubuntu_python:0.1
+    container_name: coincheck_orderbook_ubuntu
+    environment:
+      DB_IPADDRESS: 172.30.0.2
+      DB_NAME: coincheck
+      DB_USER: coincheck
+      DB_PASSWORD: coincheck
+    volumes:
+      - type: bind
+        source: ./script
+        target: /root/script
+    tty: true
+    networks:
+      coincheck_net:
+        ipv4_address: 172.30.0.3
+
+networks:
+  coincheck_net:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 172.30.0.0/24
+
+volumes:
+  coincheck_db:
