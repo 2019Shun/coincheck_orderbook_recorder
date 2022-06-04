@@ -29,6 +29,7 @@ services:
       - type: bind
         source: ./script
         target: /root/script
+    restart: always
     tty: true
     networks:
       coincheck_net:
