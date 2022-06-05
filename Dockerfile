@@ -7,7 +7,6 @@ RUN apt install -y cron nano screen
 RUN pip3 install numpy matplotlib
 RUN pip3 install psycopg2
 RUN pip3 install requests
-RUN pip3 install schedule
 
 RUN mkdir /root/script
 

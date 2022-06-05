@@ -2,7 +2,7 @@ from PostgreConnect import PostgreConnect
 import requests
 import json
 import os
-import schedule
+import signal
 from time import sleep
 
 ORDERBOOK_URL = 'https://coincheck.com/api/order_books'
@@ -14,21 +14,21 @@ db_name = os.environ['DB_NAME']
 db_user = os.environ['DB_USER']
 db_password = os.environ['DB_PASSWORD']
 
-def task():
+def task(arg1, arg2):
     # 情報の取得
     btc_orderbook = requests.get(ORDERBOOK_URL).json()
     btc_ticker = requests.get(TICKER_URL).json()
     btc_rate = requests.get(RATE_URL).json()
-    
+
     #DBへの接続とデータ挿入
     db = PostgreConnect(db_ipaddress, db_name, 'public', db_user, db_password)
     db.execute('insert into btc_orderbook_table (orderbook, ticker, rate, created_at) \
         values (\'' + json.dumps(btc_orderbook)+ '\', \'' + json.dumps(btc_ticker)+ '\', \'' + json.dumps(btc_rate)+ '\', current_timestamp(0))')
 
 # スケジュール登録
-schedule.every(10).seconds.do(task)
+signal.signal(signal.SIGALRM, task)
+signal.setitimer(signal.ITIMER_REAL, 10, 10)
 
 # イベント実行
 while True:
-    schedule.run_pending()
     sleep(1)
