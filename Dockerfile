@@ -10,4 +10,4 @@ RUN pip3 install requests
 
 RUN mkdir /root/script
 
-RUN echo 'nohup python3 /root/script/recordCoincheckBtcOrderbook.py > /root/script/out.log &' >> /root/.bashrc
+RUN echo 'nohup python3 /root/script/recordCoincheckBtcOrderbook.py >> /root/script/out.log &' >> /root/.bashrc
