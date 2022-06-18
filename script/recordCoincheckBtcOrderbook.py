@@ -10,8 +10,7 @@ import datetime
 ORDERBOOK_URL = 'https://coincheck.com/api/order_books'
 TICKER_URL = 'https://coincheck.com/api/ticker'
 RATE_URL = 'https://coincheck.com/api/rate/btc_jpy'
-DB_NAME = 'btc_orderbook_table'
-DB2_NAME = 'btc_orderbook_table2'
+TABLE_NAME = 'btc_orderbook_table'
 
 db_ipaddress = os.environ['DB_IPADDRESS']
 db_name = os.environ['DB_NAME']
@@ -49,7 +48,7 @@ def task2(arg1, arg2):
 
         #DBへの接続とデータ挿入
         db = PostgreConnect(db_ipaddress, db_name, 'public', db_user, db_password)
-        db.execute('insert into ' + DB2_NAME + ' (orderbook, created_at) \
+        db.execute('insert into ' + TABLE_NAME + ' (orderbook, created_at) \
             values (\'' + json.dumps(btc_orderbook) + '\', current_timestamp(3))')
             
     except Exception as e:

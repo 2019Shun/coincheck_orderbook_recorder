@@ -8,6 +8,8 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
     container_name: coincheck_orderbook_postgres
     environment:
+      TZ: Asia/Tokyo
+      PGTZ: Asia/Tokyo
       POSTGRES_USER: coincheck
       POSTGRES_PASSWORD: coincheck
       POSTGRES_DB: coincheck

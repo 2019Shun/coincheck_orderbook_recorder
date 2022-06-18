@@ -6,16 +6,7 @@ DROP TABLE IF EXISTS btc_orderbook_table2;
 CREATE TABLE btc_orderbook_table (
   id serial,
   orderbook jsonb not null,
-  ticker jsonb,
-  rate jsonb,
-  created_at timestamp,
-  PRIMARY KEY (id)
-);
-
-CREATE TABLE btc_orderbook_table2 (
-  id serial,
-  orderbook jsonb not null,
-  created_at timestamp,
+  created_at timestamp with time zone,
   PRIMARY KEY (id)
 );
 
